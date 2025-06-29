@@ -385,8 +385,11 @@ def main():
         layout="wide"
     )
 
-    # Add a logo
-    st.image("C:\\Users\\Lenovo\\Project AI Python Bootcamp Skill Academy\\fin_pro\\image\\logo me.png", width=500)
+    # Add a logo (with fallback if not found)
+    try:
+        st.image("asset/logo_me.png", width=500)
+    except Exception:
+        st.write(":camera: Logo image not found.")
 
     # Custom theme (Streamlit theme config is in .streamlit/config.toml, but we can use markdown for some tweaks)
     st.markdown("""
@@ -577,24 +580,34 @@ def generate_comprehensive_content(topic: str, content_type: str, platforms: Lis
             ]
             image_ideas = [idea.replace('{topic}', topic).replace('{tone}', tone) for idea in base_ideas][:5]
 
-        # Generate complex caption & idea
+        # Generate complex caption & idea (with description/explanation for each point)
         if use_llm and st.session_state.llm_service:
             prompt = (
                 f"Generate a creative social media package for the topic '{topic}'.\n"
-                f"Format the response as follows:\n"
-                f"1. Caption (short, catchy, max 20 words)\n"
-                f"2. Post Idea (detailed, creative, 2-3 sentences)\n"
-                f"3. Suggested Hashtags (5, comma separated)\n"
-                f"4. Visual/Design Suggestion (describe an image or design to accompany the post)\n"
-                f"Content type: {content_type}, Tone: {tone}, Call to action: {cta if cta else 'None'}."
+                f"Return the result in the following STRICT format (do not add extra lines or change the structure):\n"
+                f"1. Caption: <main point, 1 line>\n   Description: <detailed explanation, 2-3 sentences>\n"
+                f"2. Post Idea: <main point, 1 line>\n   Description: <detailed explanation, 2-3 sentences>\n"
+                f"3. Hashtags: <main point, 1 line>\n   Description: <detailed explanation, 2-3 sentences>\n"
+                f"4. Visual/Design Suggestion: <main point, 1 line>\n   Description: <detailed explanation, 2-3 sentences>\n"
+                f"Content type: {content_type}, Tone: {tone}, Call to action: {cta if cta else 'None'}.\n"
+                f"Do NOT add any extra text, explanation, or blank lines. Only output the list in the format above."
             )
             complex_result = st.session_state.llm_service.generate_content(prompt)
         else:
-            caption = f"{topic.title()} - {random.choice(['Unleash the Possibilities!', 'Your Next Big Move!', 'Level Up Today!'])}"
+            caption = f"{topic.title()} - Unleash the Possibilities!"
+            caption_desc = "A catchy, attention-grabbing phrase to hook your audience and introduce the topic."
             idea = f"Share insights about {topic} in a {tone} way. Encourage your audience to engage and take action."
+            idea_desc = "This post idea is designed to spark conversation and motivate your followers to interact with your content."
             hashtags_complex = ', '.join(random.sample(['#Inspire', '#Growth', '#Now', '#SocialTips', '#Engage', '#Trendy', '#Viral', '#Success', '#Create', '#Share'], 5))
+            hashtags_desc = "These hashtags are selected to maximize reach, engagement, and discoverability for your post."
             visual = f"A vibrant, eye-catching graphic featuring {topic} and a call-to-action button."
-            complex_result = f"1. Caption: {caption}\n2. Post Idea: {idea}\n3. Suggested Hashtags: {hashtags_complex}\n4. Visual/Design Suggestion: {visual}"
+            visual_desc = "This visual suggestion is crafted to stand out in feeds and drive users to take your desired action."
+            complex_result = (
+                f"1. Caption: {caption}\n   Description: {caption_desc}\n"
+                f"2. Post Idea: {idea}\n   Description: {idea_desc}\n"
+                f"3. Hashtags: {hashtags_complex}\n   Description: {hashtags_desc}\n"
+                f"4. Visual/Design Suggestion: {visual}\n   Description: {visual_desc}"
+            )
 
     # Show a simple effect (not balloons) if successful
     st.toast("Content generated successfully!", icon="✅")
@@ -679,29 +692,49 @@ def generate_comprehensive_content(topic: str, content_type: str, platforms: Lis
                 st.markdown(f"<div style='margin-left:24px;color:gray;font-size:0.95em'>{desc}</div>", unsafe_allow_html=True)
 
     st.markdown("---")
+    
     st.subheader("✨ Complex Caption & Idea (Comprehensive)")
-    # Parse and display the complex_result as bullet points, no extra description
-    def parse_complex_result(text):
-        result = {'Caption': '', 'Post Idea': '', 'Hashtags': '', 'Visual/Design Suggestion': ''}
+
+    # Parse and display the complex_result as bullet points with indented description
+    def parse_complex_result_with_desc(text):
         import re
-        text = re.sub(r"\n?\d+\.\s*", "\n", text)
-        for key in result.keys():
-            pattern = rf"{key}[:\s]*([^\n]*)"
-            match = re.search(pattern, text, re.IGNORECASE)
-            if match:
-                result[key] = match.group(1).strip()
+        result = []
+        # Try to match with description
+        pattern = r"\d+\.\s*([A-Za-z /&]+):\s*(.*?)\n\s*Description:\s*(.*?)(?=\n\d+\.|$)"
+        matches = re.findall(pattern, text, re.DOTALL)
+        if matches:
+            for label, point, desc in matches:
+                result.append((label.strip(), point.strip(), desc.strip()))
+        else:
+            # Fallback: try to extract just the points (no description)
+            pattern_simple = r"\d+\.\s*([A-Za-z /&]+):\s*(.*?)(?=\n\d+\.|$)"
+            matches_simple = re.findall(pattern_simple, text, re.DOTALL)
+            for label, point in matches_simple:
+                result.append((label.strip(), point.strip(), None))
         return result
-    parsed = parse_complex_result(complex_result)
-    st.markdown(f"""
-    <div style='background-color:{'#23272e' if theme == 'dark' else '#f0f4fa'};padding:16px;border-radius:10px;'>
-    <ul style='margin:0 0 0 18px;padding:0;'>
-      <li><b>Caption:</b> {parsed['Caption']}</li>
-      <li><b>Post Idea:</b> {parsed['Post Idea']}</li>
-      <li><b>Hashtags:</b> {parsed['Hashtags']}</li>
-      <li><b>Visual/Design Suggestion:</b> {parsed['Visual/Design Suggestion']}</li>
-    </ul>
-    </div>
-    """, unsafe_allow_html=True)
+
+    # Example format as fallback
+    example_complex = '''* Caption: Unlock Your Potential!
+   Description: A catchy, attention-grabbing phrase to hook your audience and introduce the topic.
+* Post Idea: Share your journey and inspire others.
+   Description: This post idea is designed to spark conversation and motivate your followers to interact with your content.
+* Hashtags: #Inspire #Growth #Now #SocialTips #Engage
+   Description: These hashtags are selected to maximize reach, engagement, and discoverability for your post.
+* Visual/Design Suggestion: A vibrant, eye-catching graphic featuring your topic and a call-to-action button.
+   Description: This visual suggestion is crafted to stand out in feeds and drive users to take your desired action.'''
+
+    parsed = parse_complex_result_with_desc(complex_result)
+    if not parsed:
+        # If parsing fails, use the example format as the output
+        parsed = parse_complex_result_with_desc(example_complex)
+
+    st.markdown(f"<div style='background-color:{'#23272e' if theme == 'dark' else '#f0f4fa'};padding:16px;border-radius:10px;'>", unsafe_allow_html=True)
+    st.markdown("<ul style='margin:0 0 0 18px;padding:0;'>", unsafe_allow_html=True)
+    for label, point, desc in parsed:
+        st.markdown(f"<li><b>{label}:</b> {point}</li>", unsafe_allow_html=True)
+        if desc:
+            st.markdown(f"<div style='margin-left:24px;color:gray;font-size:0.97em'>{desc}</div>", unsafe_allow_html=True)
+    st.markdown("</ul></div>", unsafe_allow_html=True)
 
 
 def content_history_page():
