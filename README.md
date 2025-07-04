@@ -1,11 +1,15 @@
-**Disc:<br>**
-This project was created to complete the final project of the AI Python Bootcamp Batch 2 organized by Skill Academy Pro by Ruangguru!.
+**Disc:**<br>
+This project was developed as the final assignment for the AI Python Bootcamp Batch 2, organized by Skill Academy Pro by Ruangguru.
 
 # AI-Powered Social Media Content Generator
 
+
+
+
 ## Project Overview
 
-The AI-Powered Social Media Content Generator is designed to empower small business owners and content creators by streamlining and enhancing their social media presence. This application aims to bridge the gap by providing an intuitive, AI-driven platform for generating diverse social media content, leveraging artificial intelligence to generate text, suggest relevant hashtags, and provide ideas for accompanying visuals.
+The AI-Powered Social Media Content Generator is designed to empower small business owners and content creators by streamlining and enhancing their social media presence. This application aims to bridge the gap by providing an intuitive, AI-driven platform for generating diverse social media content, leveraging artificial intelligence to generate text, suggest relevant hashtags, and provide ideas for accompanying visuals. The project has been recently enhanced with advanced AI capabilities and user experience improvements.
+
 
 
 
@@ -19,7 +23,7 @@ The frontend is built entirely using Streamlit, simplifying the creation of inte
 
 *   **User Interface (UI):** Streamlit widgets are used to create an intuitive and responsive user interface for inputting content ideas, selecting content types, specifying target platforms, and viewing generated content.
 *   **Session State Management:** Streamlit's session state is utilized to maintain user inputs, application settings, and intermediate results across reruns.
-*   **Layout and Styling:** Streamlit provides basic layout options, with custom CSS for advanced styling.
+*   **Layout and Styling:** Streamlit provides basic layout options, with custom CSS for advanced styling, including a new dark/light mode toggle.
 *   **User Feedback:** Progress indicators, success messages, and error notifications provide clear feedback to the user.
 
 ### Backend (Python with AI Models)
@@ -47,18 +51,19 @@ This is the core functionality, allowing users to generate various types of soci
 
 #### 3.1.1. Text Post Generation
 
-*   **Description:** Generates text-based social media posts (e.g., for Twitter, Facebook, LinkedIn) based on user-defined parameters.
+*   **Description:** Generates text-based social media posts (e.g., for Twitter, Facebook, LinkedIn) based on user-defined parameters. Now includes an option to leverage AI LLM for more dynamic content.
 *   **Input Forms/Interactive Elements:**
     *   **Topic/Keywords (Text Input):** A `st.text_area` or `st.text_input` widget for users to enter the main subject or keywords for the post.
     *   **Content Type (Dropdown/Radio Buttons):** A `st.selectbox` or `st.radio` widget to choose the type of content (e.g., promotional, informative, question, announcement, storytelling).
     *   **Target Platform(s) (Multi-select):** A `st.multiselect` widget to select one or more social media platforms (e.g., Facebook, Twitter, Instagram, LinkedIn).
     *   **Tone of Voice (Dropdown):** A `st.selectbox` widget to specify the desired tone (e.g., formal, casual, humorous, professional, empathetic).
     *   **Call to Action (Optional Text Input):** A `st.text_input` for users to provide a specific call to action.
+    *   **Use AI LLM (Checkbox):** A `st.checkbox` to enable or disable AI LLM integration for content generation.
     *   **Generate Button (Button):** A `st.button` to trigger the AI text generation process.
 
 #### 3.1.2. Hashtag Suggestion
 
-*   **Description:** Generates relevant and trending hashtags based on the generated text or user-provided keywords.
+*   **Description:** Generates relevant and trending hashtags based on the generated text or user-provided keywords. Enhanced with LLM capabilities for more optimized suggestions.
 *   **Input Forms/Interactive Elements:**
     *   **Text Input (Automatic/Manual):** This can be automatically populated with the generated text post or allow manual input via `st.text_area`.
     *   **Number of Hashtags (Slider):** A `st.slider` to specify the desired number of hashtags.
@@ -66,10 +71,15 @@ This is the core functionality, allowing users to generate various types of soci
 
 #### 3.1.3. Image Idea Generation
 
-*   **Description:** Provides creative prompts or descriptions for images that complement the generated text post. *Note: Actual image generation (using tools like DALL-E or Stable Diffusion) would require significant computational resources and potentially higher subscription tiers. This feature focuses on generating ideas/prompts for images, not the images themselves.*
+*   **Description:** Provides creative prompts or descriptions for images that complement the generated text post. Now leverages LLM for more creative and detailed image ideas. *Note: Actual image generation (using tools like DALL-E or Stable Diffusion) would require significant computational resources and potentially higher subscription tiers. This feature focuses on generating ideas/prompts for images, not the images themselves.*
 *   **Input Forms/Interactive Elements:**
     *   **Text Post (Display Only):** The previously generated text post will be displayed for context.
     *   **Generate Image Ideas Button (Button):** A `st.button` to trigger the idea generation.
+
+#### 3.1.4. Comprehensive Content Generation
+
+*   **Description:** A unified feature to generate posts, hashtags, image ideas, and a complex caption/idea package, optionally using the AI LLM for more integrated and creative output.
+*   **Input Forms/Interactive Elements:** This feature is triggered by the main 'Generate Comprehensive Content' button, utilizing the same input parameters as text post generation.
 
 ### 3.2. Content Management and History
 
@@ -101,6 +111,32 @@ This module allows users to review, save, and manage their generated content.
     *   **Default Platforms (Multi-select):** `st.multiselect` for setting default target platforms.
     *   **API Key Input (Text Input):** A `st.text_input` for users to enter their API keys for external AI services. This input should be masked (`type=\'password\'`).
     *   **Save Settings Button (Button):** A `st.button` to save preferences.
+
+### 3.4. Advanced Content Tools
+
+This new section provides specialized AI-powered content marketing tools:
+
+#### 3.4.1. Promotional Video Script Generator
+
+*   **Description:** Generates a short promotional video script with scene descriptions and voiceovers based on a given topic, leveraging the LLM.
+*   **Input Forms/Interactive Elements:**
+    *   **Video Topic (Text Input):** A `st.text_input` for the main topic of the video.
+    *   **Generate Video Script Button (Button):** A `st.button` to trigger script generation.
+
+#### 3.4.2. Engaging Slide Post Ideas
+
+*   **Description:** Creates an outline for multi-slide social media posts, providing catchy titles and key messages for each slide, powered by the LLM.
+*   **Input Forms/Interactive Elements:**
+    *   **Slide Post Topic (Text Input):** A `st.text_input` for the topic of the slide post.
+    *   **Generate Slide Post Outline Button (Button):** A `st.button` to generate the slide outline.
+
+#### 3.4.3. Content Calendar Suggestion
+
+*   **Description:** Generates a 7-day content calendar with post ideas, content types, and brief descriptions for specified platforms, utilizing the LLM.
+*   **Input Forms/Interactive Elements:**
+    *   **Content Calendar Topic (Text Input):** A `st.text_input` for the main topic of the calendar.
+    *   **Target Platforms for Calendar (Multi-select):** A `st.multiselect` to select platforms for the calendar.
+    *   **Generate Content Calendar Button (Button):** A `st.button` to generate the calendar.
 
 
 
@@ -161,11 +197,13 @@ streamlit run Social_Media_Content_Generator.py
 
 This will open the application in your web browser. You can then interact with the various features:
 
-*   **Generate Text Posts:** Input your topic, select content type, platform, tone, and an optional call to action, then click 'Generate'.
+*   **Generate Text Posts:** Input your topic, select content type, platform, tone, and an optional call to action, then click \'Generate\'.
 *   **Get Hashtag Suggestions:** After generating a text post, you can get relevant hashtag suggestions.
 *   **Generate Image Ideas:** Obtain creative prompts for images that complement your generated text posts.
+*   **Generate Comprehensive Content:** Use the unified button to get posts, hashtags, image ideas, and a complex caption/idea package.
 *   **Manage Content History:** Save, edit, or delete your generated content from the history section.
 *   **Configure Settings:** Adjust default tones, platforms, and manage your API key in the settings section.
+*   **Advanced Content Tools:** Explore new features like Promotional Video Script Generator, Engaging Slide Post Ideas, and Content Calendar Suggestion.
 
 
 
@@ -190,6 +228,7 @@ AI-PoweredSocialMediaContentGenerator/
 
 
 
+
 ## Classes and Modules
 
 The `Social_Media_Content_Generator.py` file is structured using Object-Oriented Programming (OOP) principles, with several key classes encapsulating specific functionalities:
@@ -203,17 +242,17 @@ The `Social_Media_Content_Generator.py` file is structured using Object-Oriented
     *   The `__post_init__` method ensures `default_platforms` has a default value if not specified.
 
 *   **`ContentGenerator` (Core Class):**
-    *   Responsible for generating social media content using AI models (simulated with templates for demonstration).
+    *   Responsible for generating social media content using AI models (simulated with templates for demonstration). Its `generate_text_post` method now supports integration with the LLM service.
     *   Manages `platform_limits` (character limits for different social media platforms) and `content_templates` (pre-defined text structures for various content types).
     *   The `generate_text_post` method takes `topic`, `content_type`, `platform`, `tone`, and an optional `cta` (call to action) to produce a text post, applying tone modifications and ensuring it fits platform limits.
 
 *   **`HashtagSuggester` (Core Class):**
-    *   Responsible for suggesting relevant hashtags based on input text.
+    *   Responsible for suggesting relevant hashtags based on input text. Its `suggest_hashtags` method has been enhanced to leverage LLM capabilities for more optimized suggestions.
     *   Uses a `hashtag_database` (simulated) and `trending_hashtags`.
     *   The `suggest_hashtags` method extracts keywords from the input text and returns a list of unique, relevant, and trending hashtags, ensuring the requested count is met.
 
 *   **`ImageIdeaGenerator` (Core Class):**
-    *   Generates creative prompts or descriptions for images that complement a given text post.
+    *   Generates creative prompts or descriptions for images that complement a given text post. Its `generate_ideas` method now leverages LLM for more creative and detailed image ideas.
     *   Uses `image_styles` and `image_elements` to construct diverse image ideas.
     *   The `generate_ideas` method analyzes the text post for keywords and combines them with styles and elements to produce a list of image idea descriptions.
 
@@ -223,12 +262,12 @@ The `Social_Media_Content_Generator.py` file is structured using Object-Oriented
     *   Provides methods for `save_post`, `get_all_posts`, `delete_post`, `save_settings`, and `load_settings`, ensuring data persistence and retrieval.
 
 *   **`LLMService` (Core Class):**
-    *   Manages interaction with the Large Language Model (LLM) service, specifically OpenRouter AI for free LLM access.
+    *   **New Feature:** Manages interaction with the Large Language Model (LLM) service, specifically OpenRouter AI for free LLM access.
     *   The `generate_content` method sends a prompt to the configured LLM model (`deepseek/deepseek-chat-v3-0324`) and returns the generated content.
 
 *   **`main()` Function:**
     *   The entry point of the Streamlit application.
-    *   Configures the Streamlit page, sets up custom themes, and orchestrates the UI elements and interactions with the core classes.
+    *   Configures the Streamlit page, sets up custom themes (including the new dark/light mode toggle), and orchestrates the UI elements and interactions with the core classes.
     *   Manages session state for theme toggling and other UI-related functionalities.
 
 
@@ -236,6 +275,9 @@ The `Social_Media_Content_Generator.py` file is structured using Object-Oriented
 
 ## Prompt Example
 
+When using the LLM integration, you can provide detailed prompts. For instance, to generate a comprehensive social media package:
+
+```
 Generate a creative social media package for the topic 'Remote Work Productivity'.
 
 Return the result in the following STRICT format (do not add extra lines or change the structure):
@@ -250,6 +292,7 @@ Return the result in the following STRICT format (do not add extra lines or chan
 
 Content type: informative, Tone: professional, Call to action: Learn More.
 Do NOT add any extra text, explanation, or blank lines. Only output the list in the format above.
+```
 
 
 
@@ -261,9 +304,11 @@ Contributions are welcome! If you have suggestions for improvements, new feature
 1.  Fork the repository.
 2.  Create a new branch (`git checkout -b feature/your-feature-name`).
 3.  Make your changes.
-4.  Commit your changes (`git commit -m 'Add new feature'`).
+4.  Commit your changes (`git commit -m \'Add new feature\'`).
 5.  Push to the branch (`git push origin feature/your-feature-name`).
 6.  Open a Pull Request.
+
+
 
 
 ## Demo
@@ -278,3 +323,5 @@ Contributions are welcome! If you have suggestions for improvements, new feature
 ## Connect, Support & Collaborate
 
 [LinkedIn](https://www.linkedin.com/in/abizar-al-gifari/)
+
+
