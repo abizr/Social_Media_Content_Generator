@@ -452,13 +452,15 @@ def main():
     user_settings = st.session_state.post_repository.load_settings()
 
     # Tabs for navigation
-    tab1, tab2, tab3 = st.tabs(["Content Generator", "Content History", "Settings"])
+    tab1, tab2, tab3, tab4 = st.tabs(["Content Generator", "Content History", "Settings", "Advanced Content Tools"])
     with tab1:
         content_generator_page(user_settings, theme)
     with tab2:
         content_history_page()
     with tab3:
         settings_page()
+    with tab4:
+        advanced_content_tools_page(user_settings, theme)
 
     # Footer
     st.markdown("""
@@ -851,6 +853,64 @@ def settings_page():
         st.metric("Total Posts Generated", len(posts))
     else:
         st.info("No posts generated yet.")
+
+
+def advanced_content_tools_page(user_settings: UserSettings, theme: str):
+    st.header("Advanced Content Tools")
+    st.markdown("""
+    Explore advanced AI-powered content marketing tools:
+    - 🎬 **Promotional Video Script Generator**
+    - 📊 **Engaging Slide Post Ideas**
+    - 📅 **Content Calendar Suggestion**
+    """)
+
+    st.subheader("🎬 Promotional Video Script Generator")
+    topic = st.text_input("Video Topic", key="video_topic", help="Enter the main topic for your promotional video.")
+    if st.button("Generate Video Script", key="gen_video_script"):
+        if topic.strip() and st.session_state.llm_service:
+            prompt = (
+                f"Generate a short promotional video script for the topic '{topic}'. "
+                f"The script should include 3-5 scenes. For each scene, provide a brief description of the visuals and the voiceover/dialogue. "
+                f"Format as:\n"
+                f"Scene 1: <visual description>\nVoiceover: <voiceover/dialogue>\n..."
+            )
+            script = st.session_state.llm_service.generate_content(prompt)
+            st.text_area("Video Script", script, height=220)
+        else:
+            st.warning("Please enter a topic and ensure your API key is set in Settings.")
+
+    st.subheader("📊 Engaging Slide Post Ideas")
+    topic_slide = st.text_input("Slide Post Topic", key="slide_topic", help="Enter the topic for your slide post.")
+    if st.button("Generate Slide Post Outline", key="gen_slide_outline"):
+        if topic_slide.strip() and st.session_state.llm_service:
+            prompt = (
+                f"Generate an outline for a 5-slide social media post about '{topic_slide}'. "
+                f"For each slide, provide a catchy title and a key point or message. "
+                f"Format as:\n"
+                f"Slide 1: <title>\nPoint: <key message>\n..."
+            )
+            slides = st.session_state.llm_service.generate_content(prompt)
+            st.text_area("Slide Post Outline", slides, height=180)
+        else:
+            st.warning("Please enter a topic and ensure your API key is set in Settings.")
+
+    st.subheader("📅 Content Calendar Suggestion")
+    topic_cal = st.text_input("Content Calendar Topic", key="calendar_topic", help="Enter the main topic for your content calendar.")
+    platforms_cal = st.multiselect(
+        "Target Platforms for Calendar", ["Facebook", "Twitter", "Instagram", "LinkedIn"], default=user_settings.default_platforms, key="calendar_platforms"
+    )
+    if st.button("Generate Content Calendar", key="gen_content_calendar"):
+        if topic_cal.strip() and platforms_cal and st.session_state.llm_service:
+            prompt = (
+                f"Create a 7-day content calendar for the topic '{topic_cal}' targeting {', '.join(platforms_cal)}. "
+                f"For each day, suggest a post idea, content type, and a brief description. "
+                f"Format as:\n"
+                f"Day 1 (Monday): <content type> - <idea>\nDescription: <brief description>\n..."
+            )
+            calendar = st.session_state.llm_service.generate_content(prompt)
+            st.text_area("Content Calendar", calendar, height=220)
+        else:
+            st.warning("Please enter a topic, select platforms, and ensure your API key is set in Settings.")
 
 
 if __name__ == "__main__":
