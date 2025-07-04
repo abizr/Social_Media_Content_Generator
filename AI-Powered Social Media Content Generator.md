@@ -187,7 +187,6 @@ AI-PoweredSocialMediaContentGenerator/
 
 
 
-
 ## Classes and Modules
 
 The `Social_Media_Content_Generator.py` file is structured using Object-Oriented Programming (OOP) principles, with several key classes encapsulating specific functionalities:
@@ -232,6 +231,26 @@ The `Social_Media_Content_Generator.py` file is structured using Object-Oriented
 
 
 
+## Prompt Example
+
+Generate a creative social media package for the topic 'Remote Work Productivity'.
+
+Return the result in the following STRICT format (do not add extra lines or change the structure):
+1. Caption: 
+   Description: 
+2. Post Idea: 
+   Description: 
+3. Hashtags: 
+   Description: 
+4. Visual/Design Suggestion: 
+   Description: 
+
+Content type: informative, Tone: professional, Call to action: Learn More.
+Do NOT add any extra text, explanation, or blank lines. Only output the list in the format above.
+
+
+
+
 ## Contributing
 
 Contributions are welcome! If you have suggestions for improvements, new features, or bug fixes, please feel free to:
@@ -244,10 +263,15 @@ Contributions are welcome! If you have suggestions for improvements, new feature
 6.  Open a Pull Request.
 
 
+## Demo
+
+[app](https://socialmediacontentgenerator.streamlit.app/)
+
+## Video
+
+[Video](https://drive.google.com/drive/folders/1R7_rI_BfLm5CRQjZ7m7S1R9bXTVupq3X?usp=sharing)
 
 
-## License
+## Connect, Support & Collaborate
 
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-
+[LinkedIn](https://www.linkedin.com/in/abizar-al-gifari/)
